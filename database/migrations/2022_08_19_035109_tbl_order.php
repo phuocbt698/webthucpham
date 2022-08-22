@@ -31,15 +31,6 @@ return new class extends Migration
             $table->foreign('user_id')
                     ->references('id')
                     ->on('tbl_user');
-            $table->foreign('city_id')
-                    ->references('id')
-                    ->on('tbl_city');
-            $table->foreign('district_id')
-                    ->references('id')
-                    ->on('tbl_district');
-            $table->foreign('ward_id')
-                    ->references('id')
-                    ->on('tbl_ward');
         });
     }
 

@@ -1,0 +1,23 @@
+[33mcommit 727d5bbc81b830c2ab60b52fe70b9184016466d3[m[33m ([m[1;36mHEAD -> [m[1;32madmin[m[33m)[m
+Author: phuocbt <phuocbt698@gmail.com>
+Date:   Mon Aug 22 22:22:00 2022 +0700
+
+    Update migrate
+
+[33mcommit 7be8e524332b9540150fb140e72b05bdd9aa5d83[m
+Author: phuocbt <phuocbt698@gmail.com>
+Date:   Mon Aug 22 22:15:09 2022 +0700
+
+    Update database migrate
+
+[33mcommit ccdabcbe39f79689ea04681a0ea161baca26464a[m[33m ([m[1;31morigin/admin[m[33m)[m
+Author: phuocbt <phuocbt698@gmail.com>
+Date:   Fri Aug 19 11:07:43 2022 +0700
+
+    Create Database
+
+[33mcommit 9ef2a83e13c2fffae76d07aaf3e5fad92286881d[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: phuocbt <phuocbt698@gmail.com>
+Date:   Thu Aug 18 17:53:32 2022 +0700
+
+    Create Project webthucpham Laravel
