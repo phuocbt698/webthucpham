@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->unsignedInteger('role_id');
-            $table->string('path_img');
+            $table->string('path_image');
             $table->string('phone');
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->string('city_id');
             $table->string('district_id');
             $table->string('ward_id');

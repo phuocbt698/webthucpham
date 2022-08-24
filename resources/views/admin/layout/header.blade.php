@@ -1,6 +1,6 @@
  <!-- Preloader -->
  <div class="preloader flex-column justify-content-center align-items-center">
-     <img class="animation__shake" src="{{ asset('admin') }}/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60"
+     <img class="animation__shake" src="{{ asset('asset/admin') }}/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60"
          width="60">
  </div>
 
@@ -19,24 +19,30 @@
          <!-- Messages Dropdown Menu -->
          <li class="nav-item dropdown user-menu">
              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                 <img src="{{ asset('admin') }}/dist/img/user2-160x160.jpg" class="user-image img-circle elevation-2"
-                     alt="User Image">
-                 <span class="d-none d-md-inline">Alexander Pierce</span>
+                 <img src="{{ asset(Auth::guard('admin')->user()->path_image) }}"
+                     class="user-image img-circle elevation-2" alt="User Image">
+                 <span class="d-none d-md-inline">{{ ucfirst(Auth::guard('admin')->user()->name) }}</span>
              </a>
              <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                  <!-- User image -->
                  <li class="user-header bg-primary">
-                     <img src="{{ asset('admin') }}/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
+                     <img src="{{ asset(Auth::guard('admin')->user()->path_image) }}" class="img-circle elevation-2"
                          alt="User Image">
                      <p>
-                         Alexander Pierce - Web Developer
-                         <small>Member since Nov. 2012</small>
+                         {{ ucfirst(Auth::guard('admin')->user()->name) }}
+                         <small>{{ ucfirst(Auth::guard('admin')->user()->role->name) }}</small>
                      </p>
                  </li>
                  <!-- Menu Footer-->
                  <li class="user-footer">
-                     <a href="#" class="btn btn-sm btn-success">Profile</a>
-                     <a href="#" class="btn btn-sm btn-success float-right">Sign out</a>
+                     <a href="#" class="btn btn-sm btn-success">
+                         <i class="fas fa-info-circle"></i>
+                         Profile
+                     </a>
+                     <a href="{{ route('admin.logout') }}" class="btn btn-sm btn-success float-right">
+                         <i class="fas fa-sign-out-alt"></i>
+                         Logout
+                     </a>
                  </li>
              </ul>
          </li>

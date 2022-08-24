@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Models\AdminModel;
-
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class UserModel extends Model
+class UserModel extends Authenticatable
 {
     use HasFactory;
+    use Notifiable;
+    protected $guards = 'admin';
     protected $table = 'tbl_user';
     protected $primaryKey = 'id'; 
     protected $fillable  = [
@@ -16,7 +18,7 @@ class UserModel extends Model
         'role_id',
         'email',
         'password',
-        'path_img',
+        'path_image',
         'phone',
         'address',
         'city_id',
@@ -25,4 +27,8 @@ class UserModel extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function role(){
+        return $this->hasOne(RoleModel::class, 'id', 'role_id');
+    }
 }

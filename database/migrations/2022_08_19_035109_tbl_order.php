@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('total_price');
             $table->integer('status')->default(0)->comment('0: Mới, 1: Giao hàng, 2: Hoàn thành, 3: Hủy');
             $table->text('note');
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->string('city_id');
             $table->string('district_id');
             $table->string('ward_id');

@@ -18,3 +18,8 @@
        </strong>
     </div>
 </footer>
+@if (Session::has('message'))
+  <script>
+      toastMessageDanger('{{Session::get('message')}}');
+  </script>
+@endif

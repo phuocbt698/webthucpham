@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckLoginAdmin
+class CheckRoleAdmin
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,15 @@ class CheckLoginAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        $check = Auth::guard('admin')->check();
-        if($check){
+        $role = Auth::guard('admin')->user()->role_id;
+        if($role == 1){
             return $next($request);
         }else{
-            return redirect()->route('admin.login')->with('message', 'Bạn cần phải đăng nhập! Điều này là bắt buộc!');
+           if(!$request->ajax()){
+            return redirect()->back()->with('message', 'Bạn không có quyền để thực hiện chức năng này!');
+           }else{
+            return response()->json(['statusCode' => 405]);
+           }
         }
     }
 }

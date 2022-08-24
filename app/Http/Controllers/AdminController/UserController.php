@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\AdminModel\RoleModel;
 use App\Models\AdminModel\UserModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\DataTables;
+use App\Rules\Phone;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     const TITLE = 'User';
+    
     /**
      * Display a listing of the resource.
      *
@@ -27,18 +29,24 @@ class UserController extends Controller
                             $element = '<div class="d-flex justify-content-around" >' . $checkBox . '</div>';
                             return $element;
                         })
+                        ->addColumn('role', function ($user) {
+                            return $user->role->name;
+                        })
                         ->addColumn('action', function ($user) {
+                            $routeDetail = route('user.show', $user->id);
                             $routeEdit = route('user.edit', $user->id);
                             $routeDelete = route('user.delete', $user->id);
                             $deleteAjax = "deleteAjax('$routeDelete')";
+                            $buttonDetail = '<button class="btn btn-sm btn-warning" onclick="window.location.href=\'' . "$routeDetail'\">"
+                                . '<i class="fas fa-eye"> Detail </i>' . '</button>';
                             $buttonEdit = '<button class="btn btn-sm btn-success" onclick="window.location.href=\'' . "$routeEdit'\">"
                                 . '<i class="fas fa-pen-alt"> Edit </i>' . '</button>';
                             $buttonDelete = '<button class="btn btn-sm btn-danger btn-delete" onclick="' . "$deleteAjax\">"
                                 . ' <i class="fas fa-trash"> Delete </i>' . '</button>';
-                            $element = '<div class="d-flex justify-content-around" >' . $buttonEdit . $buttonDelete . '</div>';
+                            $element = '<div class="d-flex justify-content-around" >'. $buttonDetail . $buttonEdit . $buttonDelete . '</div>';
                             return $element;
                         })
-                        ->rawColumns(['deleteMany', 'action'])
+                        ->rawColumns(['role', 'deleteMany', 'action'])
                         ->make(true);
         }
         return view('admin.user.index', [
@@ -68,7 +76,47 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'role' => 'required',
+            'name' => 'required|min:3|max: 250',
+            'email' => 'required|email|unique:tbl_user',
+            'password' => 'required|min:3|max:250',
+            'phone' => ['required', new Phone('Số điện thoại không đúng định dạng!'), 'unique:tbl_user'],
+            'image' => 'required|image',
+            'city' => 'required',
+            'district' => 'required',
+            'ward' => 'required',
+
+        ],[
+            'required' => 'Trường này không được bỏ trống!',
+            'min' => 'Độ dài của trường quá ngắn!',
+            'max' => 'Độ dài của trường vượt quá giới hạn!',
+            'image' => 'Trường này nhận dữ liệu ảnh!',
+            'unique' => 'Dữ liệu hiện tại trùng với trong database!'
+        ]);
+        //Xử lý ảnh
+        $image = $request->image;
+        $nameImage = $image->getClientOriginalName();
+        $folderImage = 'uploads/images/admin/';
+        $newNameImage = $folderImage . 'user-' . time() . '-' . $nameImage;
+        $role = $request->role;
+        $bcryptPassword = bcrypt($request->password);
+        $city = $request->city;
+        $district = $request->district;
+        $ward = $request->ward;
+        //custom request
+        $request->merge([
+            'role_id' => $role,
+            'password' => $bcryptPassword,
+            'path_image' => $newNameImage,
+            'city_id' => $city,
+            'district_id' => $district,
+            'ward_id' => $ward
+        ]);
+        $userModel = new UserModel();
+        $userModel::create($request->all());
+        $image->move($folderImage, $newNameImage);
+        return 1;
     }
 
     /**
@@ -79,7 +127,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = UserModel::findOrFail($id);
+        return view('admin.user.show',[
+            'title' => self::TITLE,
+            'userInfo' => $user
+        ]);
     }
 
     /**
@@ -90,7 +142,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = UserModel::findOrFail($id);
+        $roles = RoleModel::all();
+        return view('admin.user.update', [
+            'title' => self::TITLE,
+            'user' => $user,
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -102,7 +160,59 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'role' => 'required',
+            'name' => 'required|min:3|max: 250',
+            'email' => 'required|email|unique:tbl_user,email,' . $id,
+            'password' => 'required|min:3|max:250',
+            'phone' => ['required', new Phone('Số điện thoại không đúng định dạng!'), 'unique:tbl_user,phone,'.$id],
+            'image' => 'image',
+            'city' => 'required',
+            'district' => 'required',
+            'ward' => 'required',
+
+        ],[
+            'required' => 'Trường này không được bỏ trống!',
+            'min' => 'Độ dài của trường quá ngắn!',
+            'max' => 'Độ dài của trường vượt quá giới hạn!',
+            'image' => 'Trường này nhận dữ liệu ảnh!',
+            'unique' => 'Dữ liệu hiện tại trùng với trong database!'
+        ]);
+        $userModel = UserModel::find($id);
+        //Xử lý ảnh
+        if($request->hasFile('image')){
+            $image = $request->image;
+            $nameImage = $image->getClientOriginalName();
+            $folderImage = 'uploads/images/admin/';
+            $newNameImage = $folderImage . 'user-' . time() . '-' . $nameImage;
+            @unlink($userModel->path_image);
+        }else{
+            $newNameImage = $userModel->path_image;
+        }
+
+        if(strcmp($request->password, $userModel->password)){
+            $bcryptPassword = bcrypt($request->password);
+        }else{
+            $bcryptPassword = $request->password;
+        }
+
+        
+        $role = $request->role;
+        $city = $request->city;
+        $district = $request->district;
+        $ward = $request->ward;
+        //custom request
+        $request->merge([
+            'role_id' => $role,
+            'password' => $bcryptPassword,
+            'path_image' => $newNameImage,
+            'city_id' => $city,
+            'district_id' => $district,
+            'ward_id' => $ward
+        ]);
+        $userModel::update($request->all());
+        $image->move($folderImage, $newNameImage);
+        return 1;
     }
 
     /**
@@ -113,6 +223,40 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        $userNow = Auth::guard('admin')->user()->id;
+        if($id == $userNow){
+            return response()->json(['statusCode' => 423]);
+        }else{
+            $delete = UserModel::destroy($id);
+            if($delete){
+                return response()->json(['statusCode' => 200]);
+            }else{
+                return response()->json(['statusCode' => 400]);
+            }
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $idArr
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyMany(Request $request)
+    {
+        $listID = $request->arrID;
+        $userNow = Auth::guard('admin')->user()->id;
+        $checkIdNow = in_array($userNow, $listID, false);
+        if(!$checkIdNow){
+            $delete = UserModel::destroy($listID);
+            if($delete){
+                return response()->json(['statusCode' => 200]);
+            }else{
+                return response()->json(['statusCode' => 400]);
+            }
+        }else{
+            return response()->json(['statusCode' => 423]);
+        }
     }
 }

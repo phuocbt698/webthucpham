@@ -126,8 +126,8 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $role = RoleModel::destroy($id);
-        if($role){
+        $delete = RoleModel::destroy($id);
+        if($delete){
             return  true;
         }else{
             return response()->json(['errors' => 'fasle']);
@@ -143,8 +143,8 @@ class RoleController extends Controller
     public function destroyMany(Request $request)
     {
         $listID = $request->arrID;
-        $role = RoleModel::destroy($listID);
-        if($role){  
+        $delete = RoleModel::destroy($listID);
+        if($delete){  
             return  true;
         }else{
             return response()->json(['errors' => 'fasle']);

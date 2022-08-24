@@ -42,7 +42,7 @@
                                     <div class="form-group">
                                         <label for="role">Role</label>
                                         <select class="form-control" name="role" id="role">
-                                            <option>--Chọn---</option>
+                                            <option value="">--Chọn role---</option>
                                             @foreach ($roles as $role)
                                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                                             @endforeach
@@ -64,8 +64,11 @@
                                             placeholder="Enter password">
                                     </div>
                                     <div class="form-group d-flex align-items-start flex-column">
-                                        <label for="file">Avatar</label>
-                                        <input type="file" id="file" name="file">
+                                        <label for="image">Avatar</label>
+                                        <input type="file" id="image" name="image">
+                                    </div>
+                                    <div id="preview" class="d-flex">
+
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -91,31 +94,31 @@
                                         <label for="address">Address</label>
                                         <textarea class="form-control" name="address" id="address" cols="50" rows="5" placeholder="Enter address"></textarea>
                                     </div>
-                                    
+
                                     <div class="form-group d-flex justify-content-between">
                                         <div style="width: 48%">
                                             <label for="city">City</label>
                                             <select class="form-control" name="city" id="city">
-                                                <option>--Chọn Tỉnh/Thành---</option>
+                                                <option value="">--Chọn Tỉnh/Thành---</option>
                                             </select>
                                         </div>
                                         <div style="width: 48%">
                                             <label for="district">District</label>
                                             <select class="form-control" name="district" id="district">
-                                                <option>--Chọn Quận/Huyện---</option>
+                                                <option value="">--Chọn Quận/Huyện---</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="ward">Ward</label>
                                         <select class="form-control" name="ward" id="ward">
-                                            <option>--Chọn Xã/Phường---</option> 
+                                            <option value="">--Chọn Xã/Phường---</option>
                                         </select>
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
                             </div>
-                            
+
                             <!-- /.card -->
                         </div>
 
@@ -131,16 +134,32 @@
     <script>
         $('#formCreate').submit(function(event) {
             event.preventDefault();
-            var eleValidate = ['name'];
-            var data = new FormData($('#formCreate')[0]);
+            var eleValidate = [
+                'role',
+                'name',
+                'email',
+                'password',
+                'image',
+                'phone',
+                'city',
+                'district',
+                'ward'
+            ];
+            var data = new FormData(this);
             var url = "{{ route('user.store') }}";
             var result = sendAjax(url, data, 'add');
             if (result) {
                 renderError(result, eleValidate);
             } else {
                 removeError(eleValidate, 'formCreate');
+                const preview = document.getElementById("preview");
+
+                while (preview.hasChildNodes()) {
+                    preview.removeChild(preview.firstChild);
+                }
             }
         });
-        getAddress('city', 'district', 'ward');
+        getAddress();
+        preview('image', 'preview');
     </script>
 @endpush

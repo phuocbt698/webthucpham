@@ -8,7 +8,7 @@
                     <div class="col">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Role</li>
+                            <li class="breadcrumb-item active">User</li>
                         </ol>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h3 class="card-title mr-auto p-2">Danh sách role</h3>
+                                <h3 class="card-title mr-auto p-2">Danh sách user</h3>
                                 <a href="{{ route('user.create') }}" class="p-2 btn btn-lm btn-warning">
                                     <i class="fas fa-plus-square"></i>
                                     Thêm mới
@@ -41,7 +41,7 @@
                                             <th>Name</th>
                                             <th>Role</th>
                                             <th>Email</th>
-                                            <th style="width: 20%">Action</th>
+                                            <th style="width: 25%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>

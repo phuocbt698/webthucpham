@@ -17,7 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('slug');
-            $table->string('path_img');
+            $table->string('path_image');
             $table->string('description');
             $table->integer('type')->default(0)->comment('0: banner, 1: slide');
             $table->integer('is_active')->default(0)->comment('0: Ẩn, 1: Hiển thị');
