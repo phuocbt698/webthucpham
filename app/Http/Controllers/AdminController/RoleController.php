@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use App\Models\AdminModel\RoleModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class RoleController extends Controller
@@ -20,24 +21,22 @@ class RoleController extends Controller
         if ($request->ajax()) {
             $roles = RoleModel::all();
             return DataTables::of($roles)
-                        ->editColumn('deleteMany', function ($role) {
-                            $checkBox = '<input type="checkbox" value="'.$role->id.'" name="deleteMany" />';
-                            $element = '<div class="d-flex justify-content-around" >' . $checkBox . '</div>';
-                            return $element;
-                        })
-                        ->addColumn('action', function ($role) {
-                            $routeEdit = route('role.edit', $role->id);
-                            $routeDelete = route('role.delete', $role->id);
-                            $deleteAjax = "deleteAjax('$routeDelete')";
-                            $buttonEdit = '<button class="btn btn-sm btn-success" onclick="window.location.href=\'' . "$routeEdit'\">"
-                                . '<i class="fas fa-pen-alt"> Edit </i>' . '</button>';
-                            $buttonDelete = '<button class="btn btn-sm btn-danger btn-delete" onclick="' . "$deleteAjax\">"
-                                . ' <i class="fas fa-trash"> Delete </i>' . '</button>';
-                            $element = '<div class="d-flex justify-content-around" >' . $buttonEdit . $buttonDelete . '</div>';
-                            return $element;
-                        })
-                        ->rawColumns(['deleteMany', 'action'])
-                        ->make(true);
+                ->editColumn('deleteMany', function ($role) {
+                    $checkBox = '<input type="checkbox" value="' . $role->id . '" name="deleteMany" />';
+                    $element = '<div class="d-flex justify-content-around" >' . $checkBox . '</div>';
+                    return $element;
+                })
+                ->addColumn('action', function ($role) {
+                    $routeEdit = route('role.edit', $role->id);
+                    $routeDelete = route('role.delete', $role->id);
+                    $deleteAjax = "deleteAjax('$routeDelete')";
+                    $buttonEdit = '<button class="btn btn-sm btn-success" onclick="window.location.href=\'' . "$routeEdit'\">" . '<i class="fas fa-pen-alt"> Edit </i>' . '</button>';
+                    $buttonDelete = '<button class="btn btn-sm btn-danger btn-delete" onclick="' . "$deleteAjax\">" . ' <i class="fas fa-trash"> Delete </i>' . '</button>';
+                    $element = '<div class="d-flex justify-content-around" >' . $buttonEdit . $buttonDelete . '</div>';
+                    return $element;
+                })
+                ->rawColumns(['deleteMany', 'action'])
+                ->make(true);
         }
         return view('admin.role.index', [
             'title' => self::TITLE,
@@ -52,7 +51,7 @@ class RoleController extends Controller
     public function create()
     {
         return view('admin.role.create', [
-            'title' => self::TITLE
+            'title' => self::TITLE,
         ]);
     }
 
@@ -65,14 +64,17 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()) {
-            $request->validate([
-                'name' => 'required|min:3|max:250|unique:tbl_role'
-            ], [
-                'required' => 'Trường này không được bỏ trống!',
-                'name.min' => 'Độ dài của trường quá ngắn!',
-                'name.max' => 'Độ dài của trường vượt quá giới hạn!',
-                'name.unique' => 'Dữ liệu hiện tại trùng với trong database!'
-            ]);
+            $request->validate(
+                [
+                    'name' => 'required|min:3|max:250|unique:tbl_role',
+                ],
+                [
+                    'required' => 'Trường này không được bỏ trống!',
+                    'name.min' => 'Độ dài của trường quá ngắn!',
+                    'name.max' => 'Độ dài của trường vượt quá giới hạn!',
+                    'name.unique' => 'Dữ liệu hiện tại trùng với trong database!',
+                ],
+            );
             $roleModel = new RoleModel();
             $roleModel->create($request->all());
             return true;
@@ -90,7 +92,7 @@ class RoleController extends Controller
         $role = RoleModel::findOrFail($id);
         return view('admin.role.update', [
             'title' => self::TITLE,
-            'role' => $role
+            'role' => $role,
         ]);
     }
 
@@ -103,18 +105,25 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($request->ajax()){
-            $request->validate([
-                'name' => 'required|min:3|max:250|unique:tbl_role,name,' . $id
-            ], [
-                'required' => 'Trường này không được bỏ trống!',
-                'name.min' => 'Độ dài của trường quá ngắn!',
-                'name.max' => 'Độ dài của trường vượt quá giới hạn!',
-                'name.unique' => 'Dữ liệu hiện tại trùng với trong database!'
-            ]);
+        if ($request->ajax()) {
+            $request->validate(
+                [
+                    'name' => 'required|min:3|max:250|unique:tbl_role,name,' . $id,
+                ],
+                [
+                    'required' => 'Trường này không được bỏ trống!',
+                    'name.min' => 'Độ dài của trường quá ngắn!',
+                    'name.max' => 'Độ dài của trường vượt quá giới hạn!',
+                    'name.unique' => 'Dữ liệu hiện tại trùng với trong database!',
+                ],
+            );
             $role = RoleModel::find($id);
-            $role->update($request->all());
-            return true;
+            if ($role->update($request->all())) {
+                $href = route('user.index');
+                return response()->json([
+                    'success' => ['href' => "$href"],
+                ]);
+            }
         }
     }
 
@@ -127,10 +136,10 @@ class RoleController extends Controller
     public function destroy($id)
     {
         $delete = RoleModel::destroy($id);
-        if($delete){
-            return  true;
-        }else{
-            return response()->json(['errors' => 'fasle']);
+        if ($delete) {
+            return response()->json(['statusCode' => 200]);
+        } else {
+            return response()->json(['statusCode' => 400]);
         }
     }
 
@@ -144,10 +153,10 @@ class RoleController extends Controller
     {
         $listID = $request->arrID;
         $delete = RoleModel::destroy($listID);
-        if($delete){  
-            return  true;
-        }else{
-            return response()->json(['errors' => 'fasle']);
+        if ($delete) {
+            return response()->json(['statusCode' => 200]);
+        } else {
+            return response()->json(['statusCode' => 400]);
         }
     }
 }

@@ -47,6 +47,8 @@
     <script src="{{ asset('asset/admin') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="{{ asset('asset/admin') }}/plugins/toastr/toastr.min.js"></script>
+    <!-- Ckediter -->
+    <script src="{{ asset('asset') }}/ckeditor/ckeditor.js"></script>
     <!-- js Custom -->
     <script src="{{ asset('js') }}/ajax.js"></script>
     <script src="{{ asset('js') }}/toast.js"></script>
@@ -55,6 +57,7 @@
     <script src="{{ asset('js') }}/callAddress.js"></script>
     <script src="{{ asset('js') }}/data.json"></script>
     <script src="{{ asset('js') }}/previewImage.js"></script>
+    <script src="{{ asset('js') }}/createSlug.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

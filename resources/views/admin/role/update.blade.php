@@ -69,10 +69,10 @@
             var data = new FormData($('#formUpdate')[0]);
             var url = "{{route('role.update', $role->id)}}";
             var result = sendAjax(url, data, 'edit');
-            if(result){
+            if (!result.href) {
                 renderError(result, eleValidate);
-            }else{
-                removeError(eleValidate);
+            }else {
+                window.location.replace(result.href);
             }
         });
     </script>

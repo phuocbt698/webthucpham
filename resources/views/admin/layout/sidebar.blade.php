@@ -35,12 +35,20 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item {{ !empty($title) && $title == 'Role' ? 'menu-open' : '' }}">
-                    <a href="{{ route('role.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user-tag"></i>
-                        <p>Role</p>
+                <li class="nav-item {{ !empty($title) && $title == 'Article' ? 'menu-open' : '' }}">
+                    <a href="{{ route('article.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-newspaper"></i>
+                        <p>Article</p>
                     </a>
                 </li>
+                @if (Auth::guard('admin')->user()->superAdmin())
+                    <li class="nav-item {{ !empty($title) && $title == 'Role' ? 'menu-open' : '' }}">
+                        <a href="{{ route('role.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-user-tag"></i>
+                            <p>Role</p>
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item {{ !empty($title) && $title == 'User' ? 'menu-open' : '' }}">
                     <a href="{{ route('user.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-user-shield"></i>

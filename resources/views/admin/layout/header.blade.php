@@ -35,7 +35,7 @@
                  </li>
                  <!-- Menu Footer-->
                  <li class="user-footer">
-                     <a href="#" class="btn btn-sm btn-success">
+                     <a href="{{route('user.show', Auth::guard('admin')->user()->id)}}" class="btn btn-sm btn-success">
                          <i class="fas fa-info-circle"></i>
                          Profile
                      </a>

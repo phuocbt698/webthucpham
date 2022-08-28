@@ -3,10 +3,11 @@
 namespace App\Providers;
 
 use App\Models\AdminModel\UserModel;
+use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 // use Illuminate\Auth\Access\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Mockery\Matcher\Any;
+use Illuminate\Support\Facades\Auth;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        UserModel::class => UserPolicy::class,
     ];
 
     /**
@@ -27,5 +29,10 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+        Gate::before(function ($user, $author) {
+            if($user->superAdmin()){
+                return true;
+            }
+        });
     }
 }

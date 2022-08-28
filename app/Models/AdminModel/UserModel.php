@@ -31,4 +31,8 @@ class UserModel extends Authenticatable
     public function role(){
         return $this->hasOne(RoleModel::class, 'id', 'role_id');
     }
+
+    public function superAdmin(){
+        return $this->role_id === 1 ;
+    }
 }

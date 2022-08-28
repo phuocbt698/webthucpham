@@ -67,12 +67,12 @@
     @include('admin.layout.jsTable')
     <script>
       var columns = [
-                { data: 'deleteMany', name: 'deleteMany', "orderable": false},
+                { data: 'deleteMany', name: 'deleteMany',  "searchable": false ,"orderable": false},
                 { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'role', name: 'role', "orderable": false },
                 { data: 'email', name: 'email', "orderable": false },
-                { data: 'action', name: 'action', "searchable": false}
+                { data: 'action', name: 'action',  "orderable": false ,"searchable": false}
               ];
       renderData('dataTable', '{{route('user.index')}}', columns);
     </script>

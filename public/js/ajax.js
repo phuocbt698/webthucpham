@@ -40,21 +40,26 @@ function deleteAjax(url) {
                 async: false
             });
             var status = (ajax.responseJSON).statusCode;
-            switch (status) {
-                case 200:
-                    $('#' + element).DataTable().clear().draw(true);
-                    toastSuccess('del');
-                    break;
-                case 400:
-                    toastError('del');
-                    break;
-                case 405:
-                    toastMessageDanger('Bạn không có quyền để thực hiện chức năng này!');
-                    break;
-                case 423:
-                    toastMessageDanger('Bạn không thể xóa chính bản thân mình!');
-                    break;
+            if(ajax.status == 500){
+                toastMessageDanger('Trường đang xóa liên quan đến các dữ liệu khác trong DB!');      
+            }else{
+                switch (status) {
+                    case 200:
+                        $('#' + element).DataTable().clear().draw(true);
+                        toastSuccess('del');
+                        break;
+                    case 400:
+                        toastError('del');
+                        break;
+                    case 405:
+                        toastMessageDanger('Bạn không có quyền để thực hiện chức năng này!');
+                        break;
+                    case 423:
+                        toastMessageDanger('Bạn không thể xóa chính bản thân mình!');
+                        break;
+                }
             }
+            
         }
     }
 }
@@ -76,21 +81,26 @@ function deleteManyAjax(url) {
                 async: false
             });
             var status = (ajax.responseJSON).statusCode;
-            switch (status) {
-                case 200:
-                    $('#' + element).DataTable().clear().draw(true);
-                    toastSuccess('del');
-                    break;
-                case 400:
-                    toastError('del');
-                    break;
-                case 405:
-                    toastMessageDanger('Bạn không có quyền để thực hiện chức năng này!');
-                    break;
-                case 423:
-                    toastMessageDanger('Bạn không thể xóa chính bản thân mình!');
-                    break;
+            if(ajax.status == 500){
+                toastMessageDanger('Có trường đang xóa liên quan đến các dữ liệu khác trong DB!');      
+            }else{
+                switch (status) {
+                    case 200:
+                        $('#' + element).DataTable().clear().draw(true);
+                        toastSuccess('del');
+                        break;
+                    case 400:
+                        toastError('del');
+                        break;
+                    case 405:
+                        toastMessageDanger('Bạn không có quyền để thực hiện chức năng này!');
+                        break;
+                    case 423:
+                        toastMessageDanger('Bạn không thể xóa chính bản thân mình!');
+                        break;
+                }
             }
+            
         }
     } else {
         return false;

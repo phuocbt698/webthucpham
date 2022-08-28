@@ -153,10 +153,10 @@
             var data = new FormData(this);
             var url = "{{ route('user.update', $user->id) }}";
             var result = sendAjax(url, data, 'edit');
-            if (result) {
+            if (!result.href) {
                 renderError(result, eleValidate);
-            } else {
-                removeError(eleValidate, 'formUpdate');
+            }else{
+                window.location.replace(result.href);
             }
         });
         getAddress({{$user->city_id}}, {{$user->district_id}}, {{$user->ward_id}});
