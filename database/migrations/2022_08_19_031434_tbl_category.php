@@ -17,12 +17,9 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
-            $table->unsignedInteger('parent_id');
+            $table->integer('parent_id')->default(0);
             $table->integer('is_active')->default(0)->comment('0: Ẩn, 1: Hiển thị');
             $table->timestamps();
-            $table->foreign('parent_id')
-                    ->references('id')
-                    ->on('tbl_category');
         });
     }
 

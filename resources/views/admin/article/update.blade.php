@@ -14,7 +14,7 @@
                     <div class="col">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">User</li>
+                            <li class="breadcrumb-item active">Article</li>
                         </ol>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input {{ ($article->is_active)  ? 'checked' : ''}} value="1" type="checkbox" class="form-check-input" id="is_active"
+                                            <input {{ ($article->is_active == 1)  ? 'checked' : ''}} value="1" type="checkbox" class="form-check-input" id="is_active"
                                                 name="is_active">
                                             <label class="form-check-label" for="is_active">Hiển thị</label>
                                         </div>

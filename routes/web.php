@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController\ArticleController;
+use App\Http\Controllers\AdminController\CategoryController;
 use App\Http\Controllers\AdminController\DashboardController;
 use App\Http\Controllers\AdminController\LoginController;
 use App\Http\Controllers\AdminController\RoleController;
@@ -63,6 +64,16 @@ Route::prefix('admin')->group(function () {
                 Route::delete('/article/delete/{id}', 'destroy')->name('article.delete');
                 Route::delete('/article/deleteMany', 'destroyMany')->name('article.deleteMany');
             });
+
+            // ArticleController
+            Route::controller(CategoryController::class)->group(function () {
+                Route::get('/category/create', 'create')->name('category.create');
+                Route::post('/category/store', 'store')->name('category.store');
+                Route::get('/category/edit/{id}', 'edit')->name('category.edit');
+                Route::put('/category/update/{id}', 'update')->name('category.update');
+                Route::delete('/category/delete/{id}', 'destroy')->name('category.delete');
+                Route::delete('/category/deleteMany', 'destroyMany')->name('category.deleteMany');
+            });
         });
 
         //Admin
@@ -84,6 +95,11 @@ Route::prefix('admin')->group(function () {
         Route::controller(ArticleController::class)->group(function () {
             Route::get('/article', 'index')->name('article.index');
             Route::get('/article/show/{id}', 'show')->name('article.show');
+        });
+
+        // ArticleController
+        Route::controller(CategoryController::class)->group(function () {
+            Route::get('/category', 'index')->name('category.index');
         });
     });
 });

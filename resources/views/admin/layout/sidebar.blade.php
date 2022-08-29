@@ -41,6 +41,12 @@
                         <p>Article</p>
                     </a>
                 </li>
+                <li class="nav-item {{ !empty($title) && $title == 'Category' ? 'menu-open' : '' }}">
+                    <a href="{{ route('category.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-clipboard-list"></i>
+                        <p>Category</p>
+                    </a>
+                </li>
                 @if (Auth::guard('admin')->user()->superAdmin())
                     <li class="nav-item {{ !empty($title) && $title == 'Role' ? 'menu-open' : '' }}">
                         <a href="{{ route('role.index') }}" class="nav-link">
