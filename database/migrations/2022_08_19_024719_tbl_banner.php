@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('description');
             $table->integer('type')->default(0)->comment('0: banner, 1: slide');
             $table->integer('is_active')->default(0)->comment('0: Ẩn, 1: Hiển thị');
+            $table->timestamp('time_start')->nullable();
+            $table->timestamp('time_end')->nullable();
             $table->timestamps();
         });
     }

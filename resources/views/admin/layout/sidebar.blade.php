@@ -41,6 +41,12 @@
                         <p>Article</p>
                     </a>
                 </li>
+                <li class="nav-item {{ !empty($title) && $title == 'Banner' ? 'menu-open' : '' }}">
+                    <a href="{{ route('banner.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-ad"></i>
+                        <p>Banner</p>
+                    </a>
+                </li>
                 <li class="nav-item {{ !empty($title) && $title == 'Category' ? 'menu-open' : '' }}">
                     <a href="{{ route('category.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-clipboard-list"></i>

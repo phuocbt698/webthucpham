@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController\ArticleController;
+use App\Http\Controllers\AdminController\BannerController;
 use App\Http\Controllers\AdminController\CategoryController;
 use App\Http\Controllers\AdminController\DashboardController;
 use App\Http\Controllers\AdminController\LoginController;
@@ -65,7 +66,17 @@ Route::prefix('admin')->group(function () {
                 Route::delete('/article/deleteMany', 'destroyMany')->name('article.deleteMany');
             });
 
-            // ArticleController
+            // BannerController
+            Route::controller(BannerController::class)->group(function () {
+                Route::get('/banner/create', 'create')->name('banner.create');
+                Route::post('/banner/store', 'store')->name('banner.store');
+                Route::get('/banner/edit/{id}', 'edit')->name('banner.edit');
+                Route::put('/banner/update/{id}', 'update')->name('banner.update');
+                Route::delete('/banner/delete/{id}', 'destroy')->name('banner.delete');
+                Route::delete('/banner/deleteMany', 'destroyMany')->name('banner.deleteMany');
+            });
+
+            // CategoryController
             Route::controller(CategoryController::class)->group(function () {
                 Route::get('/category/create', 'create')->name('category.create');
                 Route::post('/category/store', 'store')->name('category.store');
@@ -97,7 +108,13 @@ Route::prefix('admin')->group(function () {
             Route::get('/article/show/{id}', 'show')->name('article.show');
         });
 
-        // ArticleController
+        // BannerController
+        Route::controller(BannerController::class)->group(function () {
+            Route::get('/banner', 'index')->name('banner.index');
+            Route::get('/banner/show/{id}', 'show')->name('banner.show');
+        });
+
+        // CategoryController
         Route::controller(CategoryController::class)->group(function () {
             Route::get('/category', 'index')->name('category.index');
         });

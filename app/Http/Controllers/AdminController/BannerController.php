@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Controller;
-use App\Models\AdminModel\ArticleModel;
+use App\Models\AdminModel\BannerModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Str;
 
-class ArticleController extends Controller
+class BannerController extends Controller
 {
-    const TITLE = 'Article';
-
+    const TITLE = 'Banner';
     /**
      * Display a listing of the resource.
      *
@@ -21,28 +19,33 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $articles = ArticleModel::all();
-            return DataTables::of($articles)
-                ->editColumn('deleteMany', function ($article) {
-                    $checkBox = '<input type="checkbox" value="' . $article->id . '" name="deleteMany" />';
+            $banners = BannerModel::all();
+            return DataTables::of($banners)
+                ->editColumn('deleteMany', function ($banner) {
+                    $checkBox = '<input type="checkbox" value="' . $banner->id . '" name="deleteMany" />';
                     $element = '<div class="d-flex justify-content-around" >' . $checkBox . '</div>';
                     return $element;
                 })
-                ->addColumn('author', function ($article) {
-                    return $article->author->name;
+                ->addColumn('typeBanner', function ($banner) {
+                    if ($banner->type == 1) {
+                        $elementType = '<span class="badge badge-success">Slide</span>';
+                    } else {
+                        $elementType = '<span class="badge badge-warning">Banner</span></span>';
+                    }
+                    return $elementType;
                 })
-                ->addColumn('status', function ($article) {
-                    if ($article->is_active == 1) {
+                ->addColumn('status', function ($banner) {
+                    if ($banner->is_active == 1) {
                         $elementStatus = '<span class="badge badge-success">Hiển thị</span>';
                     } else {
                         $elementStatus = '<span class="badge badge-danger">Ẩn</span></span>';
                     }
                     return $elementStatus;
                 })
-                ->addColumn('action', function ($article) {
-                    $routeDetail = route('article.show', $article->id);
-                    $routeEdit = route('article.edit', $article->id);
-                    $routeDelete = route('article.delete', $article->id);
+                ->addColumn('action', function ($banner) {
+                    $routeDetail = route('banner.show', $banner->id);
+                    $routeEdit = route('banner.edit', $banner->id);
+                    $routeDelete = route('banner.delete', $banner->id);
                     $deleteAjax = "deleteAjax('$routeDelete')";
                     $buttonDetail = '<button class="btn btn-sm btn-warning" onclick="window.location.href=\'' . "$routeDetail'\">" . '<i class="fas fa-eye"> Detail </i>' . '</button>';
                     $buttonEdit = '<button class="btn btn-sm btn-success" onclick="window.location.href=\'' . "$routeEdit'\">" . '<i class="fas fa-pen-alt"> Edit </i>' . '</button>';
@@ -50,11 +53,11 @@ class ArticleController extends Controller
                     $element = '<div class="d-flex justify-content-around" >' . $buttonDetail . $buttonEdit . $buttonDelete . '</div>';
                     return $element;
                 })
-                ->rawColumns(['deleteMany', 'action', 'status'])
+                ->rawColumns(['deleteMany', 'action', 'status', 'typeBanner'])
                 ->make(true);
         }
-        return view('admin.article.index', [
-            'title' => self::TITLE,
+        return view('admin.banner.index', [
+            'title' => self::TITLE
         ]);
     }
 
@@ -65,7 +68,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('admin.article.create', [
+        return view('admin.banner.create', [
             'title' => self::TITLE,
         ]);
     }
@@ -82,31 +85,32 @@ class ArticleController extends Controller
             [
                 'title' => 'required|min:3|max: 250',
                 'image' => 'required|image',
-                'description' => 'required',
+                'description' => 'required|max:250',
+                'time_start' => 'required',
+                'time_end' => 'required|after:time_start'
             ],
             [
                 'required' => 'Trường này không được bỏ trống!',
                 'min' => 'Độ dài của trường quá ngắn!',
-                'max' => 'Độ dài của trường vượt quá giới hạn!',
+                'max' => 'Độ dài của trường vượt quá giới hạn 255!',
                 'image' => 'Trường này nhận dữ liệu ảnh!',
+                'after' => 'Thời gian kết thúc phải sau thời gian bắt đầu'
             ],
         );
         //Xử lý ảnh
         $image = $request->image;
         $nameImage = $image->getClientOriginalName();
-        $folderImage = 'uploads/images/article/';
-        $newNameImage = $folderImage . 'article-' . time() . '-' . $nameImage;
+        $folderImage = 'uploads/images/banner/';
+        $newNameImage = $folderImage . 'banner-' . time() . '-' . $nameImage;
         $slug = Str::slug($request->title);
-        $id_author = Auth::guard('admin')->user()->id;
         //custom request
         $request->merge([
             'slug' => $slug,
-            'user_id' => $id_author,
             'path_image' => $newNameImage,
         ]);
-        $articleModel = new ArticleModel();
+        $bannerModel = new BannerModel();
         
-        if($articleModel::create($request->all())){
+        if($bannerModel::create($request->all())){
             $image->move($folderImage, $newNameImage);
             return 1;
         }   
@@ -120,10 +124,10 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = ArticleModel::find($id);
-        return view('admin.article.show', [
+        $banner = BannerModel::find($id);
+        return view('admin.banner.show', [
             'title' => self::TITLE,
-            'article' => $article,
+            'banner' => $banner,
         ]);
     }
 
@@ -135,10 +139,10 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        $article = ArticleModel::findOrFail($id);
-        return view('admin.article.update', [
+        $banner = BannerModel::findOrFail($id);
+        return view('admin.banner.update', [
             'title' => self::TITLE,
-            'article' => $article,
+            'banner' => $banner,
         ]);
     }
 
@@ -155,30 +159,38 @@ class ArticleController extends Controller
             [
                 'title' => 'required|min:3|max: 250',
                 'image' => 'image',
-                'description' => 'required',
+                'description' => 'required|max:250',
+                'time_start' => 'required',
+                'time_end' => 'required|after:time_start'
             ],
             [
                 'required' => 'Trường này không được bỏ trống!',
                 'min' => 'Độ dài của trường quá ngắn!',
-                'max' => 'Độ dài của trường vượt quá giới hạn!',
+                'max' => 'Độ dài của trường vượt quá giới hạn 255!',
                 'image' => 'Trường này nhận dữ liệu ảnh!',
+                'after' => 'Thời gian kết thúc phải sau thời gian bắt đầu'
             ],
         );
-        $articleModel = ArticleModel::find($id);
+        $bannerModel = BannerModel::find($id);
         //Xử lý ảnh
         if ($request->hasFile('image')) {
             $image = $request->image;
             $nameImage = $image->getClientOriginalName();
-            $folderImage = 'uploads/images/article/';
-            $newNameImage = $folderImage . 'article-' . time() . '-' . $nameImage;
-            @unlink($articleModel->path_image);
+            $folderImage = 'uploads/images/banner/';
+            $newNameImage = $folderImage . 'banner-' . time() . '-' . $nameImage;
+            @unlink($bannerModel->path_image);
+            $image->move($folderImage, $newNameImage);
             $request->merge([
                 'path_image' => $newNameImage,
             ]);
-            $image->move($folderImage, $newNameImage);
         }
-        if ($articleModel->update($request->all())) {
-            $href = route('article.index');
+        $slug = Str::slug($request->title);
+        //custom request
+        $request->merge([
+            'slug' => $slug
+        ]);
+        if ($bannerModel->update($request->all())) {
+            $href = route('banner.index');
             return response()->json([
                 'success' => ['href' => "$href"],
             ]);
@@ -193,7 +205,7 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        $delete = ArticleModel::destroy($id);
+        $delete = BannerModel::destroy($id);
         if ($delete) {
             return response()->json(['statusCode' => 200]);
         } else {
@@ -210,7 +222,7 @@ class ArticleController extends Controller
     public function destroyMany(Request $request)
     {
         $listID = $request->arrID;
-        $delete = ArticleModel::destroy($listID);
+        $delete = BannerModel::destroy($listID);
         if ($delete) {
             return response()->json(['statusCode' => 200]);
         } else {
