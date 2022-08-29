@@ -245,13 +245,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        
+        $userModel = UserModel::find($id);
         $userNow = Auth::guard('admin')->user()->id;
         if($id == $userNow){
             return response()->json(['statusCode' => 423]);
         }else{
             $delete = UserModel::destroy($id);
             if($delete){
+                @unlink($userModel->path_image);
                 return response()->json(['statusCode' => 200]);
             }else{
                 return response()->json(['statusCode' => 400]);
@@ -268,6 +269,10 @@ class UserController extends Controller
     public function destroyMany(Request $request)
     {
         $listID = $request->arrID;
+        foreach ($listID as $id) {
+            $userModel = UserModel::find($id);
+            @unlink($userModel->path_image);
+        }
         $userNow = Auth::guard('admin')->user()->id;
         $checkIdNow = in_array($userNow, $listID, false);
         if(!$checkIdNow){

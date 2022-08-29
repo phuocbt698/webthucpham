@@ -193,8 +193,10 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
+        $articleModel = ArticleModel::find($id);
         $delete = ArticleModel::destroy($id);
         if ($delete) {
+            @unlink($articleModel->path_image);
             return response()->json(['statusCode' => 200]);
         } else {
             return response()->json(['statusCode' => 400]);
@@ -210,6 +212,10 @@ class ArticleController extends Controller
     public function destroyMany(Request $request)
     {
         $listID = $request->arrID;
+        foreach ($listID as $id) {
+            $articleModel = ArticleModel::find($id);
+            @unlink($articleModel->path_image);
+        }
         $delete = ArticleModel::destroy($listID);
         if ($delete) {
             return response()->json(['statusCode' => 200]);

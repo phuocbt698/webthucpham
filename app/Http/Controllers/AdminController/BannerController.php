@@ -205,8 +205,10 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
+        $bannerModel = BannerModel::find($id);
         $delete = BannerModel::destroy($id);
         if ($delete) {
+            @unlink($bannerModel->path_image);
             return response()->json(['statusCode' => 200]);
         } else {
             return response()->json(['statusCode' => 400]);
@@ -222,8 +224,13 @@ class BannerController extends Controller
     public function destroyMany(Request $request)
     {
         $listID = $request->arrID;
+        foreach ($listID as $id) {
+            $bannerModel = BannerModel::find($id);
+            @unlink($bannerModel->path_image);
+        }
         $delete = BannerModel::destroy($listID);
         if ($delete) {
+           
             return response()->json(['statusCode' => 200]);
         } else {
             return response()->json(['statusCode' => 400]);
