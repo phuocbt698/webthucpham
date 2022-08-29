@@ -133,11 +133,8 @@
                 renderError(result, eleValidate);
             } else {
                 removeError(eleValidate, 'formCreate');
-                const preview = document.getElementById("preview");
                 CKEDITOR.instances.description.setData('');
-                while (preview.hasChildNodes()) {
-                    preview.removeChild(preview.firstChild);
-                }
+                removeImage('preview');
             }
         });
         preview('image', 'preview', false);

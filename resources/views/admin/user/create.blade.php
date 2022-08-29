@@ -152,11 +152,7 @@
                 renderError(result, eleValidate);
             } else {
                 removeError(eleValidate, 'formCreate');
-                const preview = document.getElementById("preview");
-
-                while (preview.hasChildNodes()) {
-                    preview.removeChild(preview.firstChild);
-                }
+                removeImage('preview');
             }
         });
         getAddress();

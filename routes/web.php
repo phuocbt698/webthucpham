@@ -2,12 +2,17 @@
 
 use App\Http\Controllers\AdminController\ArticleController;
 use App\Http\Controllers\AdminController\BannerController;
+use App\Http\Controllers\AdminController\BrandController;
 use App\Http\Controllers\AdminController\CategoryController;
+use App\Http\Controllers\AdminController\ContactController;
 use App\Http\Controllers\AdminController\DashboardController;
 use App\Http\Controllers\AdminController\LoginController;
+use App\Http\Controllers\AdminController\MemberController;
+use App\Http\Controllers\AdminController\OrderController;
+use App\Http\Controllers\AdminController\ProductController;
 use App\Http\Controllers\AdminController\RoleController;
 use App\Http\Controllers\AdminController\UserController;
-use App\Models\AdminModel\UserModel;
+use App\Http\Controllers\AdminController\VendorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,6 +80,31 @@ Route::prefix('admin')->group(function () {
                 Route::delete('/banner/delete/{id}', 'destroy')->name('banner.delete');
                 Route::delete('/banner/deleteMany', 'destroyMany')->name('banner.deleteMany');
             });
+            // BrandController
+            Route::controller(BrandController::class)->group(function () {
+                Route::get('/brand/create', 'create')->name('brand.create');
+                Route::post('/brand/store', 'store')->name('brand.store');
+                Route::get('/brand/edit/{id}', 'edit')->name('brand.edit');
+                Route::put('/brand/update/{id}', 'update')->name('brand.update');
+                Route::delete('/brand/delete/{id}', 'destroy')->name('brand.delete');
+                Route::delete('/brand/deleteMany', 'destroyMany')->name('brand.deleteMany');
+            });
+
+            // ContactController
+            Route::controller(ContactController::class)->group(function () {
+                Route::get('/contact/create', 'create')->name('contact.create');
+                Route::post('/contact/store', 'store')->name('contact.store');
+                Route::delete('/contact/delete/{id}', 'destroy')->name('contact.delete');
+                Route::delete('/contact/deleteMany', 'destroyMany')->name('contact.deleteMany');
+            });
+
+            // OrderController
+            Route::controller(OrderController::class)->group(function () {
+                Route::get('/order/create', 'create')->name('order.create');
+                Route::post('/order/store', 'store')->name('order.store');
+                Route::delete('/order/delete/{id}', 'destroy')->name('order.delete');
+                Route::delete('/order/deleteMany', 'destroyMany')->name('order.deleteMany');
+            });
 
             // CategoryController
             Route::controller(CategoryController::class)->group(function () {
@@ -84,6 +114,36 @@ Route::prefix('admin')->group(function () {
                 Route::put('/category/update/{id}', 'update')->name('category.update');
                 Route::delete('/category/delete/{id}', 'destroy')->name('category.delete');
                 Route::delete('/category/deleteMany', 'destroyMany')->name('category.deleteMany');
+            });
+
+            // ProductController
+            Route::controller(ProductController::class)->group(function () {
+                Route::get('/product/create', 'create')->name('product.create');
+                Route::post('/product/store', 'store')->name('product.store');
+                Route::get('/product/edit/{id}', 'edit')->name('product.edit');
+                Route::put('/product/update/{id}', 'update')->name('product.update');
+                Route::delete('/product/delete/{id}', 'destroy')->name('product.delete');
+                Route::delete('/product/deleteMany', 'destroyMany')->name('product.deleteMany');
+            });
+
+            // MemberController
+            Route::controller(MemberController::class)->group(function () {
+                Route::get('/member/create', 'create')->name('member.create');
+                Route::post('/member/store', 'store')->name('member.store');
+                Route::get('/member/edit/{id}', 'edit')->name('member.edit');
+                Route::put('/member/update/{id}', 'update')->name('member.update');
+                Route::delete('/member/delete/{id}', 'destroy')->name('member.delete');
+                Route::delete('/member/deleteMany', 'destroyMany')->name('member.deleteMany');
+            });
+
+            // VendorController
+            Route::controller(VendorController::class)->group(function () {
+                Route::get('/vendor/create', 'create')->name('vendor.create');
+                Route::post('/vendor/store', 'store')->name('vendor.store');
+                Route::get('/vendor/edit/{id}', 'edit')->name('vendor.edit');
+                Route::put('/vendor/update/{id}', 'update')->name('vendor.update');
+                Route::delete('/vendor/delete/{id}', 'destroy')->name('vendor.delete');
+                Route::delete('/vendor/deleteMany', 'destroyMany')->name('vendor.deleteMany');
             });
         });
 
@@ -114,9 +174,46 @@ Route::prefix('admin')->group(function () {
             Route::get('/banner/show/{id}', 'show')->name('banner.show');
         });
 
+        // BrandController
+        Route::controller(BrandController::class)->group(function () {
+            Route::get('/brand', 'index')->name('brand.index');
+        });
+
+        // ContactController
+        Route::controller(ContactController::class)->group(function () {
+            Route::get('/contact', 'index')->name('contact.index');
+            Route::get('/contact/show/{id}', 'show')->name('contact.show');
+            Route::get('/contact/edit/{id}', 'edit')->name('contact.edit');
+            Route::put('/contact/update/{id}', 'update')->name('contact.update');
+        });
+
+        // OrderController
+        Route::controller(OrderController::class)->group(function () {
+            Route::get('/order', 'index')->name('order.index');
+            Route::get('/order/show/{id}', 'show')->name('order.show');
+            Route::get('/order/edit/{id}', 'edit')->name('order.edit');
+            Route::put('/order/update/{id}', 'update')->name('order.update');
+        });
+
         // CategoryController
         Route::controller(CategoryController::class)->group(function () {
             Route::get('/category', 'index')->name('category.index');
+        });
+
+        // ProductController
+        Route::controller(ProductController::class)->group(function () {
+            Route::get('/product', 'index')->name('product.index');
+        });
+
+         // MemberController
+         Route::controller(MemberController::class)->group(function () {
+            Route::get('/member', 'index')->name('member.index');
+            Route::get('/member/show/{id}', 'show')->name('member.show');
+        });
+
+        // VendorController
+        Route::controller(VendorController::class)->group(function () {
+            Route::get('/vendor', 'index')->name('vendor.index');
         });
     });
 });

@@ -33,3 +33,10 @@ function removeError(elementArray, formId = '') {
     }
 
 }
+
+function removeImage(preview){
+    var preview = document.getElementById(preview);
+    while (preview.hasChildNodes()) {
+        preview.removeChild(preview.firstChild);
+    }
+}

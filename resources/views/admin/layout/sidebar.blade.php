@@ -47,10 +47,41 @@
                         <p>Banner</p>
                     </a>
                 </li>
+                <li class="nav-item {{ !empty($title) && $title == 'Brand' ? 'menu-open' : '' }}">
+                    <a href="{{ route('brand.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-copyright"></i>
+                        <p>Brand</p>
+                    </a>
+                </li>
                 <li class="nav-item {{ !empty($title) && $title == 'Category' ? 'menu-open' : '' }}">
                     <a href="{{ route('category.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-clipboard-list"></i>
                         <p>Category</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ !empty($title) && $title == 'Product' ? 'menu-open' : '' }}">
+                    <a href="{{ route('product.index') }}" class="nav-link">
+                        <i class="nav-icon fab fa-product-hunt"></i>
+                        <p>Product</p>
+                    </a>
+                </li>
+                
+                <li class="nav-item {{ !empty($title) && $title == 'Order' ? 'menu-open' : '' }}">
+                    <a href="{{ route('order.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-cart-arrow-down"></i>
+                        <p>Order</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ !empty($title) && $title == 'Contact' ? 'menu-open' : '' }}">
+                    <a href="{{ route('contact.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-file-signature"></i>
+                        <p>Contact</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ !empty($title) && $title == 'Vendor' ? 'menu-open' : '' }}">
+                    <a href="{{ route('vendor.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-truck-moving"></i>
+                        <p>Vendor</p>
                     </a>
                 </li>
                 @if (Auth::guard('admin')->user()->superAdmin())
@@ -65,6 +96,12 @@
                     <a href="{{ route('user.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-user-shield"></i>
                         <p>User</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ !empty($title) && $title == 'Member' ? 'menu-open' : '' }}">
+                    <a href="{{ route('member.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>Member</p>
                     </a>
                 </li>
             </ul>
