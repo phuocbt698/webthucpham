@@ -116,10 +116,7 @@ Route::prefix('admin')->group(function () {
 
             // ProductController
             Route::controller(ProductController::class)->group(function () {
-                Route::get('/product/create', 'create')->name('product.create');
-                Route::post('/product/store', 'store')->name('product.store');
-                Route::get('/product/edit/{id}', 'edit')->name('product.edit');
-                Route::put('/product/update/{id}', 'update')->name('product.update');
+                
                 Route::delete('/product/delete/{id}', 'destroy')->name('product.delete');
                 Route::delete('/product/deleteMany', 'destroyMany')->name('product.deleteMany');
             });
@@ -202,6 +199,11 @@ Route::prefix('admin')->group(function () {
         // ProductController
         Route::controller(ProductController::class)->group(function () {
             Route::get('/product', 'index')->name('product.index');
+            Route::get('/product/show/{id}', 'show')->name('product.show');
+            Route::get('/product/create', 'create')->name('product.create');
+            Route::post('/product/store', 'store')->name('product.store');
+            Route::get('/product/edit/{id}', 'edit')->name('product.edit');
+            Route::put('/product/update/{id}', 'update')->name('product.update');
         });
 
          // MemberController

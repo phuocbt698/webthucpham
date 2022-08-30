@@ -156,6 +156,7 @@ class BrandController extends Controller
             $image->move($folderImage, $newNameImage);
             $request->merge([
                 'path_image' => $newNameImage,
+                'is_active' => $request->is_active ?? '0'
             ]);
         }
         $slug = Str::slug($request->name);

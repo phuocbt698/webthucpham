@@ -76,7 +76,7 @@
                                 <!-- /.card-body -->
 
                                 <div class="card-footer">
-                                    <button type="submit" class="float-right btn btn-primary">Thêm mới</button>
+                                    <button type="submit" class="float-right btn btn-primary">Lưu lại</button>
                                 </div>
 
                             </div>

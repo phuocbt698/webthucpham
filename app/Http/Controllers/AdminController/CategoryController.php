@@ -141,6 +141,7 @@ class CategoryController extends Controller
         $slug = Str::slug($request->name);
         $request->merge([
             'slug' => $slug,
+            'is_active' => $request->is_active ?? '0'
         ]);
         $categoryModel = CategoryModel::findOrFail($id);
         if ($categoryModel->update($request->all())) {

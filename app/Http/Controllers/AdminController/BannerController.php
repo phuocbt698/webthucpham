@@ -187,7 +187,8 @@ class BannerController extends Controller
         $slug = Str::slug($request->title);
         //custom request
         $request->merge([
-            'slug' => $slug
+            'slug' => $slug,
+            'is_active' => $request->is_active ?? '0'
         ]);
         if ($bannerModel->update($request->all())) {
             $href = route('banner.index');

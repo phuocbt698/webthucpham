@@ -174,6 +174,7 @@ class ArticleController extends Controller
             @unlink($articleModel->path_image);
             $request->merge([
                 'path_image' => $newNameImage,
+                'is_active' => $request->is_active ?? '0'
             ]);
             $image->move($folderImage, $newNameImage);
         }

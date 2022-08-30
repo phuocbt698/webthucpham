@@ -81,7 +81,7 @@ class VendorController extends Controller
             'website' => ['required', new Url('Trường này nhận vào một địa chỉ website!')],
             'name' => 'required|min:3|max: 250',
             'email' => 'required|email|unique:tbl_vendor',
-            'phone' => ['required', new Phone('Số điện thoại không đúng định dạng!'), 'unique:tbl_user'],
+            'phone' => ['required', new Phone('Số điện thoại không đúng định dạng!'), 'unique:tbl_vendor'],
             'image' => 'required|image',
             'city' => 'required',
             'district' => 'required',
