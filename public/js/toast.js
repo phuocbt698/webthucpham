@@ -18,7 +18,10 @@ function toastSuccess(type){
             break;
         case 'del':
             toastr.success('Dữ liệu được chọn đã được xóa thành công!')
-            break;    
+            break;  
+        case 'mail':
+            toastr.success('Mail đã được gửi thành công!')
+            break;      
         default:
             break;
     }
@@ -37,7 +40,10 @@ function toastError(type){
             break;
         case 'del':
             toastr.error('Dữ liệu được chọn xóa thất bại! Vui lòng kiểm tra lại!')
-            break;    
+            break;
+        case 'mail':
+            toastr.error('Mail được gửi đi thất bại!')
+            break   
         default:
             break;
     }

@@ -92,8 +92,6 @@ Route::prefix('admin')->group(function () {
 
             // ContactController
             Route::controller(ContactController::class)->group(function () {
-                Route::get('/contact/create', 'create')->name('contact.create');
-                Route::post('/contact/store', 'store')->name('contact.store');
                 Route::delete('/contact/delete/{id}', 'destroy')->name('contact.delete');
                 Route::delete('/contact/deleteMany', 'destroyMany')->name('contact.deleteMany');
             });
@@ -185,6 +183,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/contact/show/{id}', 'show')->name('contact.show');
             Route::get('/contact/edit/{id}', 'edit')->name('contact.edit');
             Route::put('/contact/update/{id}', 'update')->name('contact.update');
+            Route::post('/contact/feedback/{id}', 'feedback')->name('contact.feedback');
         });
 
         // OrderController
