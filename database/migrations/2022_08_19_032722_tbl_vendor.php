@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('path_image');
             $table->string('website');
+            $table->string('address');
             $table->string('city_id');
             $table->string('district_id');
             $table->string('ward_id');

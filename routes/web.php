@@ -213,6 +213,7 @@ Route::prefix('admin')->group(function () {
         // VendorController
         Route::controller(VendorController::class)->group(function () {
             Route::get('/vendor', 'index')->name('vendor.index');
+            Route::get('/vendor/show/{id}', 'show')->name('vendor.show');
         });
     });
 });

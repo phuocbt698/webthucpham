@@ -19,6 +19,7 @@ function renderError(errorArray, elementArray) {
 }
 
 function removeError(elementArray, formId = '') {
+    
     if (formId !== '') {
         var formData = document.getElementById(formId);
         elementArray.map(value => {
