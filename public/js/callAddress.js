@@ -35,7 +35,6 @@ function getAddress(cityId = -1, districtId = -1, wardId = -1) {
                 $('#ward').html('<option> Chọn phường/xã </option>');
                 districts.map(value => {
                     if (value.code == districtId) {
-                        console.log(value);
                         ward = value.wards;
                         ward.map(value => {
                             $('#ward').append(`<option ${(value.code == wardId) ? 'selected' : '' } value="${value.code}">${value.name}</option>`);

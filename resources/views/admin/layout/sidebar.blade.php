@@ -17,7 +17,7 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">
+                <a href="{{route('user.show', Auth::guard('admin')->user()->id)}}" class="d-block">
                     {{ Auth::guard('admin')->user()->name }}
                 </a>
             </div>
@@ -29,6 +29,12 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+               <li class="nav-item {{ empty($title) ? 'menu-open' : '' }}">
+                    <a href="{{ route('homepage') }}" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>Homepage</p>
+                    </a>
+                </li>
                 <li class="nav-item {{ !empty($title) && $title == 'Dashboard' ? 'menu-open' : '' }}">
                     <a href="{{ route('dashboard.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -57,6 +63,12 @@
                     <a href="{{ route('category.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-clipboard-list"></i>
                         <p>Category</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ !empty($title) && $title == 'Counpon' ? 'menu-open' : '' }}">
+                    <a href="{{ route('counpon.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>Counpon</p>
                     </a>
                 </li>
                 <li class="nav-item {{ !empty($title) && $title == 'Product' ? 'menu-open' : '' }}">
@@ -102,6 +114,12 @@
                     <a href="{{ route('member.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Member</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ !empty($title) && $title == 'Config' ? 'menu-open' : '' }}">
+                    <a href="{{ route('config.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>Config</p>
                     </a>
                 </li>
             </ul>

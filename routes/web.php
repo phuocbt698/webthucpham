@@ -4,7 +4,9 @@ use App\Http\Controllers\AdminController\ArticleController;
 use App\Http\Controllers\AdminController\BannerController;
 use App\Http\Controllers\AdminController\BrandController;
 use App\Http\Controllers\AdminController\CategoryController;
+use App\Http\Controllers\AdminController\ConfigController;
 use App\Http\Controllers\AdminController\ContactController;
+use App\Http\Controllers\AdminController\CounponController;
 use App\Http\Controllers\AdminController\DashboardController;
 use App\Http\Controllers\AdminController\LoginController;
 use App\Http\Controllers\AdminController\MemberController;
@@ -25,10 +27,23 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+/*
+**
+**Router Custommer
+**
+*/
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('custommer.homepage');
+})->name('homepage');
+
+
+
+/*
+**
+**Router Admin
+**
+*/
 
 Route::prefix('admin')->group(function () {
     Route::get('/login', function () {
@@ -116,7 +131,7 @@ Route::prefix('admin')->group(function () {
 
             // ProductController
             Route::controller(ProductController::class)->group(function () {
-                
+
                 Route::delete('/product/delete/{id}', 'destroy')->name('product.delete');
                 Route::delete('/product/deleteMany', 'destroyMany')->name('product.deleteMany');
             });
@@ -140,10 +155,28 @@ Route::prefix('admin')->group(function () {
                 Route::delete('/vendor/delete/{id}', 'destroy')->name('vendor.delete');
                 Route::delete('/vendor/deleteMany', 'destroyMany')->name('vendor.deleteMany');
             });
+
+            // ConfigController
+            Route::controller(ConfigController::class)->group(function () {
+                Route::get('/config/create', 'create')->name('config.create');
+                Route::post('/config/store', 'store')->name('config.store');
+                Route::get('/config/edit/{id}', 'edit')->name('config.edit');
+                Route::put('/config/update/{id}', 'update')->name('config.update');
+                Route::delete('/config/delete/{id}', 'destroy')->name('config.delete');
+                Route::delete('/config/deleteMany', 'destroyMany')->name('config.deleteMany');
+            });
+
+            // CounponController
+            Route::controller(CounponController::class)->group(function () {
+                Route::get('/counpon/create', 'create')->name('counpon.create');
+                Route::post('/counpon/store', 'store')->name('counpon.store');
+                Route::delete('/counpon/delete/{id}', 'destroy')->name('counpon.delete');
+                Route::delete('/counpon/deleteMany', 'destroyMany')->name('counpon.deleteMany');
+            });
         });
 
         //Admin
-        
+
         // Dashboard
         Route::controller(DashboardController::class)->group(function () {
             Route::get('/', 'index')->name('dashboard.index');
@@ -206,8 +239,8 @@ Route::prefix('admin')->group(function () {
             Route::put('/product/update/{id}', 'update')->name('product.update');
         });
 
-         // MemberController
-         Route::controller(MemberController::class)->group(function () {
+        // MemberController
+        Route::controller(MemberController::class)->group(function () {
             Route::get('/member', 'index')->name('member.index');
             Route::get('/member/show/{id}', 'show')->name('member.show');
         });
@@ -216,6 +249,19 @@ Route::prefix('admin')->group(function () {
         Route::controller(VendorController::class)->group(function () {
             Route::get('/vendor', 'index')->name('vendor.index');
             Route::get('/vendor/show/{id}', 'show')->name('vendor.show');
+        });
+
+        // ConfigController
+        Route::controller(ConfigController::class)->group(function () {
+            Route::get('/config', 'index')->name('config.index');
+            Route::get('/config/show/{id}', 'show')->name('config.show');
+        });
+
+        // CounponController
+        Route::controller(CounponController::class)->group(function () {
+            Route::get('/counpon', 'index')->name('counpon.index');
+            Route::get('/counpon/edit/{id}', 'edit')->name('counpon.edit');
+            Route::put('/counpon/update/{id}', 'update')->name('counpon.update');
         });
     });
 });
