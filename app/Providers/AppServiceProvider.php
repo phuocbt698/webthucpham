@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\AdminModel\CategoryModel;
+use App\Models\AdminModel\ConfigModel;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $configWeb = ConfigModel::first();
+        View::share('config', $configWeb);
     }
 }

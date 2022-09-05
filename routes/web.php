@@ -15,6 +15,12 @@ use App\Http\Controllers\AdminController\ProductController;
 use App\Http\Controllers\AdminController\RoleController;
 use App\Http\Controllers\AdminController\UserController;
 use App\Http\Controllers\AdminController\VendorController;
+use App\Http\Controllers\Custommer\BlogController;
+use App\Http\Controllers\Custommer\CartController;
+use App\Http\Controllers\Custommer\CheckoutController;
+use App\Http\Controllers\Custommer\ContactController as CustommerContactController;
+use App\Http\Controllers\Custommer\HomeController;
+use App\Http\Controllers\Custommer\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,12 +39,12 @@ use Illuminate\Support\Facades\Route;
 **
 */
 
-Route::get('/', function () {
-    return view('custommer.homepage');
-})->name('homepage');
-
-
-
+Route::get('/', [HomeController::class, 'index'])->name('homepage');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/contact', [CustommerContactController::class, 'index'])->name('contact');
 /*
 **
 **Router Admin

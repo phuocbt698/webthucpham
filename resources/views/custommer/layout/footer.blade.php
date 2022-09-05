@@ -2,30 +2,26 @@
 <footer class="footer spad">
     <div class="container">
         <div class="row d-flex justify-content-between">
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="footer__about">
                     <div class="footer__about__logo">
-                        <a href="./index.html"><img src="{{asset('asset/custommer')}}/img/logo.png"
+                        <a href="{{route('homepage')}}"><img src="{{asset($config->logo)}}"
                                 alt=""></a>
                     </div>
                     <ul>
-                        <li>Address: 60-49 Road 11378 New York</li>
-                        <li>Phone: +65 11.188.888</li>
-                        <li>Email: hello@colorlib.com</li>
+                        <li>Address: <span id="addressWeb"></span></li>
+                        <li>Phone: {{$config->phone ?? ''}}</li>
+                        <li>Email: {{$config->email ?? ''}}</li>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-4 col-md-12">
                 <div class="footer__widget">
-                    <h6>Join Our Newsletter Now</h6>
-                    <p>Get E-mail updates about our latest shop and special offers.</p>
-                    <form action="#">
-                        <input type="text" placeholder="Enter your mail">
-                        <button type="submit" class="site-btn">Subscribe</button>
-                    </form>
+                    <h6>Đây là trang website đầu tiên với laravel của tôi</h6>
+                    <p>Hy vọng tôi nhận được các đánh giá của mọi người! Và tất nhiên vẫn còn một số thứ cần cải thiện trong tương lai! Tôi đang có cải thiện kiến thức của bản thân mình! Cảm ơn mọi người!:</p>
                     <div class="footer__widget__social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-github"></i></a>
+                        <a target="_blank" href="{{$config->facebook ?? ''}}"><i class="fa fa-facebook"></i></a>
+                        <a target="_blank" href="{{$config->git ?? ''}}"><i class="fa fa-github"></i></a>
                     </div>
                 </div>
             </div>
@@ -39,8 +35,8 @@
                             Copyright &copy;
                             <script>
                                 document.write(new Date().getFullYear());
-                            </script> All rights reserved | This template is made with <i
-                                class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                            </script> Cảm ơn rất nhiều | Về template free của <i
+                                class="fa fa-heart" aria-hidden="true"></i> <a href="https://colorlib.com"
                                 target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
