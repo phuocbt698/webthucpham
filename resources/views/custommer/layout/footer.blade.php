@@ -35,7 +35,7 @@
                             Copyright &copy;
                             <script>
                                 document.write(new Date().getFullYear());
-                            </script> Cảm ơn rất nhiều | Về template free của <i
+                            </script> Cảm ơn rất nhiều | Về template của <i
                                 class="fa fa-heart" aria-hidden="true"></i> <a href="https://colorlib.com"
                                 target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

@@ -60,5 +60,18 @@ class DatabaseSeeder extends Seeder
             'created_at' => date('Y-m-d H:m:s'),
             'updated_at' => date('Y-m-d H:m:s')
         ]);
+        DB::table('tbl_configweb')->insert([
+            'logo' => 'uploads/images/logo/logo.png',
+            'email' => 'phuocbt698@gmail.com',
+            'facebook' => 'http://facebook.com/phuocbt698',
+            'git' => 'http://github.com/phuocbt698',
+            'phone' => '0988603702',
+            'address' => '',
+            'city_id' => 34,
+            'district_id' => 339,
+            'ward_id' => 12673,
+            'created_at' => date('Y-m-d H:m:s'),
+            'updated_at' => date('Y-m-d H:m:s')
+        ]);
     }
 }
